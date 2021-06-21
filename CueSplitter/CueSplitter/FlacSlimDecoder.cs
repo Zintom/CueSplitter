@@ -72,7 +72,7 @@ namespace CueSplitter
 
             try
             {
-                Span<byte> buffer = stackalloc byte[2];
+                Span<byte> buffer = stackalloc byte[2]; buffer.Clear();
                 stream.Read(buffer);
 
                 // Read the first 16 bits, this contains
@@ -107,7 +107,7 @@ namespace CueSplitter
 
                 // At this point we know the length of the header (stream.Position - startOfHeaderPosition)
                 int headerLength = (int)(stream.Position - startOfHeaderPosition);
-                Span<byte> header = headerLength < 1024 ? stackalloc byte[headerLength] : new byte[headerLength];
+                Span<byte> header = headerLength < 1024 ? stackalloc byte[headerLength] : new byte[headerLength]; header.Clear();
                 // Move the stream back to the start of the header.
                 stream.Position -= header.Length;
                 // Re-read the header as a whole (this excludes the CRC as we have not advanced that far quite yet).
@@ -179,7 +179,7 @@ namespace CueSplitter
         /// <returns>The next <see cref="MetaDataBlockHeader"/> or <see langword="null"/> if there is no more meta data (audio frames have started).</returns>
         private static MetaDataBlockHeader? GetNextMetaDataBlockHeader(Stream stream)
         {
-            Span<byte> headerBuffer = stackalloc byte[4];
+            Span<byte> headerBuffer = stackalloc byte[4]; headerBuffer.Clear();
             int bytesRead = stream.Read(headerBuffer);
 
             // Check for the sync code (meaning we have hit a frame, no longer in the Meta Data area).

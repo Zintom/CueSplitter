@@ -25,7 +25,7 @@ namespace CueSplitter
         {
             long positionAtStart = stream.Position;
 
-            Span<byte> currentByte = stackalloc byte[1];
+            Span<byte> currentByte = stackalloc byte[1]; currentByte.Clear();
 
             // Retrieve a UTF-8 byte
             stream.Read(currentByte);
@@ -60,7 +60,7 @@ namespace CueSplitter
                         int utf8CharacterLength = (int)(stream.Position - positionAtStart);
                         stream.Position = positionAtStart;
 
-                        Span<byte> utf8Character = utf8CharacterLength < 1024 ? stackalloc byte[utf8CharacterLength] : new byte[utf8CharacterLength];
+                        Span<byte> utf8Character = utf8CharacterLength < 1024 ? stackalloc byte[utf8CharacterLength] : new byte[utf8CharacterLength]; utf8Character.Clear();
 
                         stream.Read(utf8Character);
 
